@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ITTY COMPANY — челендж, 5 місць</title>
+<meta name="description" content="IT-челендж: бери участь безкоштовно, збільшуй шанси за $1 і виграй сайт.">
+<meta name="theme-color" content="#0a0a0a">
+<meta property="og:image" content="/img/dollar.png">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='16' fill='%232a1406'/><text x='50%25' y='58%25' text-anchor='middle' dominant-baseline='middle' font-family='Arial Black,sans-serif' font-weight='900' font-size='40' fill='%23A9ED3D'>$1</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Pacifico&family=Unbounded:wght@500;700;900&family=JetBrains+Mono:wght@500;700;800&family=Manrope:wght@500;700;800&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=orangeswirls1">
+</head>
+<body>
+<div class="aura" aria-hidden="true">
+  <i class="aura__blob aura__blob--a"></i>
+  <i class="aura__blob aura__blob--b"></i>
+  <i class="aura__blob aura__blob--c"></i>
+  <i class="aura__blob aura__blob--d"></i>
+  <i class="aura__blob aura__blob--e"></i>
+  <i class="aura__blob aura__blob--f"></i>
+</div>
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="dots" aria-hidden="true"></div>
+<div class="wall" id="wall" aria-hidden="true"></div>
+<canvas id="sparkles" aria-hidden="true"></canvas>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__coin"><img src="img/dollar-sign.png" alt=""></div>
+  <div class="loader__term"><span data-boot></span><em>_</em></div>
+  <div class="loader__bar"><i></i></div>
+</div>
+
+<header class="nav">
+  <a class="logo" href="#top"><span class="logo__mark">$1</span><span data-brand-name>ITTY</span><sup>COMPANY</sup></a>
+  <nav class="nav__links">
+    <a href="#prizes" data-i18n="nav.prizes">Призи</a>
+    <a href="#how" data-i18n="nav.how">Як</a>
+    <a href="#boost" data-i18n="nav.boost">Шанси</a>
+    <a href="#top10" data-i18n="nav.top">Рейтинг</a>
+    <a href="#fair" data-i18n="nav.fair">Чесність</a>
+    <a href="#faq" data-i18n="nav.faq">FAQ</a>
+  </nav>
+  <div class="nav__right">
+    <div class="lang" id="langSwitch" role="group" aria-label="Language">
+      <button type="button" data-lang="uk" class="on">UA</button>
+      <button type="button" data-lang="en">EN</button>
+      <button type="button" data-lang="nl">NL</button>
+      <button type="button" data-lang="ru">RU</button>
+    </div>
+    <button class="btn btn--black btn--sm" id="navAuth" data-i18n="nav.login">Участь</button>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="hero__stage">
+      <div class="hero__copy">
+        <div class="hero__badge"><span class="pulse"></span><span id="phaseBadge" data-i18n="hero.badge">Завантаження…</span></div>
+        <h1 class="hero__title">
+          <span class="line line--a"><span class="split x3d" data-i18n="hero.t1">Виграй</span></span>
+          <span class="line line--b"><span class="split x3d" data-i18n="hero.t2">сайт</span></span>
+          <span class="line line--c"><span class="hero__bang"><span class="split x3d" data-i18n="hero.t3">безкоштовно</span><span class="dot">!</span></span></span>
+        </h1>
+        <p class="hero__sub" data-i18n-html="hero.sub">IT-челендж від <b data-brand-name>ITTY</b>. Перший шанс — <span class="fancy">безкоштовно</span>. Кожен наступний — <span class="fancy fancy--alt">$1</span>. Що більше шансів, то ближче перемога. Місяць. <span class="fancy fancy--spot">П’ять місць</span>. Твій хід.</p>
+      </div>
+      <div class="hero__devices" aria-hidden="true">
+        <img class="hero__mock" src="img/mockup2.png" alt="" width="1024" height="682" decoding="async">
+      </div>
+    </div>
+
+    <div class="countdown" id="countdown">
+      <div class="countdown__label" id="cdLabel" data-i18n="cd.untilStart">До старту</div>
+      <div class="countdown__grid">
+        <div class="cd">
+          <div class="cd__face"><div class="cd__num" data-cd="d">00</div></div>
+          <span class="cd__tag" data-i18n="cd.days">днів</span>
+        </div>
+        <div class="cd">
+          <div class="cd__face"><div class="cd__num" data-cd="h">00</div></div>
+          <span class="cd__tag" data-i18n="cd.hours">годин</span>
+        </div>
+        <div class="cd">
+          <div class="cd__face"><div class="cd__num" data-cd="m">00</div></div>
+          <span class="cd__tag" data-i18n="cd.mins">хвилин</span>
+        </div>
+        <div class="cd cd--s">
+          <div class="cd__face"><div class="cd__num" data-cd="s">00</div></div>
+          <span class="cd__tag" data-i18n="cd.secs">секунд</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero__cta">
+      <button class="btn btn--black btn--xl magnetic" id="heroJoin"><span data-i18n="hero.join">Брати участь безкоштовно</span><i>→</i></button>
+      <a class="btn btn--pink btn--xl magnetic" href="#boost" data-i18n="hero.boost">+ Збільшити шанси</a>
+    </div>
+
+    <div class="hero__stats">
+      <div><b data-count="participants">0</b><span data-i18n="hero.stat.people">учасників</span></div>
+      <div><b class="inf">∞</b><span data-i18n="hero.stat.chances">шансів у грі</span></div>
+      <div><b>5</b><span data-i18n="hero.stat.winners">переможців</span></div>
+    </div>
+  </section>
+
+  <section class="marquee" aria-label="Feed">
+    <div class="marquee__row"><div class="marquee__track" id="mq1"></div></div>
+    <div class="marquee__row marquee__row--pink"><div class="marquee__track" id="mq2"></div></div>
+  </section>
+
+  <section class="section manifesto" id="about">
+    <span class="kicker" data-i18n="manifesto.kicker">// маніфест</span>
+    <p class="manifesto__text" id="manifesto" data-i18n-html="manifesto.text">Ми — <b data-brand-name>ITTY</b>. Не продукт — челендж. 1 шанс безкоштовно. Хочеш більше — кожен наступний за $1. Місяць. П’ять місць. Хто завгодно. <em class="you">Ти</em>.</p>
+  </section>
+
+  <section class="section">
+    <div class="numbers">
+      <div class="numcard reveal tilt"><b class="x3d">1</b><h3 data-i18n="num.1.h">безкоштовний шанс</h3><p data-i18n="num.1.p">Кожному, хто підписався і зареєструвався. Без жодної оплати.</p></div>
+      <div class="numcard numcard--pink reveal tilt"><b class="x3d">$1</b><h3 data-i18n="num.2.h">за кожен новий</h3><p data-i18n="num.2.p">Один долар — один додатковий квиток у розіграші.</p></div>
+      <div class="numcard numcard--black reveal tilt"><b class="x3d x3d--lemon">5</b><h3 data-i18n="num.3.h">місць</h3><p data-i18n="num.3.p">П’ять різних переможців. Одне місце на людину.</p></div>
+      <div class="numcard reveal tilt"><b class="x3d">30</b><h3 data-i18n="num.4.h">днів</h3><p data-i18n="num.4.p">Рівно місяць, щоб набрати шанси. Потім — підсумки.</p></div>
+      <div class="numcard numcard--wide reveal tilt"><b class="x3d">∞</b><h3 data-i18n="num.5.h">ліміту немає</h3><p data-i18n="num.5.p">Хоч 1, хоч 100, хоч 500 шансів. Скільки візьмеш — стільки квитків буде у тебе в барабані.</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="prizes">
+    <div class="section__head reveal">
+      <span class="kicker" data-i18n="prizes.kicker">// 01 — призи</span>
+      <h2><span data-i18n="prizes.h1">П’ять місць.</span><br><span class="hl" data-i18n="prizes.h2">П’ять переможців.</span></h2>
+      <p data-i18n="prizes.p">Кожен переможець отримує своє місце. Одна людина — одне місце, тому виграють п’ять різних людей. Навіть якщо в когось тисяча шансів, місця іншим усе одно дістануться.</p>
+    </div>
+    <div class="prizes" id="prizeGrid"></div>
+  </section>
+
+  <section class="section" id="how">
+    <div class="section__head reveal">
+      <span class="kicker" data-i18n="how.kicker">// 02 — як брати участь</span>
+      <h2><span data-i18n="how.h1">Чотири кроки</span><br><span class="hl" data-i18n="how.h2">до перемоги</span></h2>
+      <p data-i18n="how.p">Жодних складних завдань. Підписка, реєстрація — і ти вже в барабані. Решта — за бажанням.</p>
+    </div>
+    <div class="steps">
+      <article class="step reveal tilt">
+        <div class="step__num x3d">01</div>
+        <div class="step__code">&gt; follow <b data-ig>@itty.company</b></div>
+        <h3 data-i18n="how.1.h">Підпишись в Instagram</h3>
+        <p data-i18n="how.1.p">Підписка на наш акаунт — обов’язкова умова. Ми перевіряємо кожного учасника перед розіграшем. Не відписуйся до підсумків!</p>
+      </article>
+      <article class="step reveal tilt" id="stepRegister" role="button" tabindex="0" style="cursor:pointer">
+        <div class="step__num x3d">02</div>
+        <div class="step__code">&gt; register --free</div>
+        <h3 data-i18n="how.2.h">Зареєструйся</h3>
+        <p data-i18n="how.2.p">Ім’я, email і нік в Instagram. Займає 30 секунд. Email потрібен, щоб ми могли зв’язатися з тобою, якщо ти переможеш.</p>
+      </article>
+      <article class="step reveal tilt">
+        <div class="step__num x3d">03</div>
+        <div class="step__code">&gt; chances = 1</div>
+        <h3 data-i18n="how.3.h">Отримай шанс безкоштовно</h3>
+        <p data-i18n="how.3.p">Одразу після реєстрації в тебе є 1 квиток. Без оплати, без підступу. Цього вже достатньо, щоб виграти.</p>
+      </article>
+      <article class="step step--hot reveal tilt">
+        <div class="step__num x3d x3d--lemon">04</div>
+        <div class="step__code">&gt; chances += $1</div>
+        <h3 data-i18n="how.4.h">Збільш шанси</h3>
+        <p data-i18n="how.4.p">Кожен додатковий шанс — $1. Купив 10 — у тебе вже 11 квитків замість одного. Докупати можна будь-коли протягом місяця.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" id="boost">
+    <div class="deco" data-type="sign" style="--x:-5%;--y:42%;--z:140px;--depth:.55"></div>
+    <div class="boost reveal">
+      <div class="boost__left">
+        <span class="kicker" data-i18n="boost.kicker">// 03 — буст</span>
+        <h2><span data-i18n="boost.h1">Скільки шансів</span><br><span class="hl" data-i18n="boost.h2">береш?</span></h2>
+        <p class="muted" data-i18n="boost.p">1 безкоштовний + скільки завгодно по $1. Рухай повзунок і дивись, як росте твій квиток.</p>
+        <div class="slider">
+          <input type="range" id="boostRange" min="0" max="100" value="10" data-i18n-aria="boost.aria" aria-label="Кількість додаткових шансів">
+          <div class="slider__ticks"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
+        </div>
+        <div class="quick" id="quickBoost">
+          <button data-q="1">+1</button><button data-q="5">+5</button><button data-q="10">+10</button><button data-q="25">+25</button><button data-q="50">+50</button><button data-q="100">+100</button>
+        </div>
+      </div>
+      <div class="boost__right">
+        <div class="ticket" id="ticket">
+          <div class="ticket__holo"></div>
+          <div class="ticket__top"><span data-brand-name>ITTY</span> · CHALLENGE<span class="ticket__no">№ ••••</span></div>
+          <div class="ticket__big"><b id="bTotal">11</b><span data-i18n="ticket.chances">шансів</span></div>
+          <div class="ticket__rows">
+            <div><span data-i18n="ticket.free">Безкоштовний</span><b>1</b></div>
+            <div><span data-i18n="ticket.extra">Додаткові</span><b id="bExtra">10</b></div>
+            <div><span data-i18n="ticket.power">Сила шансу</span><b id="bMult">×11</b></div>
+          </div>
+          <div class="ticket__bars" id="bBars"></div>
+          <div class="ticket__cut"></div>
+          <div class="ticket__pay"><span data-i18n="ticket.pay">До сплати</span><b id="bPrice">$10</b></div>
+        </div>
+        <button class="btn btn--black btn--xl btn--block magnetic" id="boostBuy"><span data-i18n="boost.buy">Купити шанси</span><i>→</i></button>
+        <p class="tiny muted" id="boostNote" data-i18n="boost.note">Оплата карткою через захищену платіжну сторінку.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="odds">
+    <div class="section__head reveal">
+      <span class="kicker" data-i18n="odds.kicker">// 04 — таблиця шансів</span>
+      <h2><span data-i18n="odds.h1">Більше квитків —</span><br><span class="hl" data-i18n="odds.h2">гучніше твоє ім’я</span></h2>
+      <p data-i18n="odds.p">Кожен шанс — окремий квиток у барабані. У розіграші 5 місць, і кожне розігрується серед усіх квитків. Ось як виглядають популярні пакети:</p>
+    </div>
+    <div class="odds reveal" id="oddsTable"></div>
+  </section>
+
+  <section class="section">
+    <div class="dollar">
+      <div class="dollar__bill reveal"><img src="img/dollar.png" data-i18n-alt="dollar.alt" alt="Блискуча купюра $1"></div>
+      <div class="dollar__text reveal">
+        <span class="kicker" data-i18n="dollar.kicker">// ціна шансу</span>
+        <h2 class="x3d-h"><span data-i18n="dollar.h1">$1 —</span><br><span class="hl" data-i18n="dollar.h2">ще один номерок.</span></h2>
+        <ul class="facts">
+          <li><b>🎟</b><span data-i18n="dollar.1">Платиш раз — одразу отримуєш унікальний квиток у барабані.</span></li>
+          <li><b>#</b><span data-i18n="dollar.2">Без підписок, пакетів і дрібного шрифту. Ціна завжди $1.</span></li>
+          <li><b>↑</b><span data-i18n="dollar.3">Докупай коли завгодно, поки челендж відкритий — шанси сумуються.</span></li>
+          <li><b>○</b><span data-i18n="dollar.4">Безкоштовний шанс уже в грі. $1 — лише якщо хочеш більше сили.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="top10">
+    <div class="section__head reveal">
+      <span class="kicker" data-i18n="top.kicker">// 05 — live рейтинг</span>
+      <h2><span data-i18n="top.h1">Топ-10</span><br><span class="hl" data-i18n="top.h2">за шансами</span></h2>
+      <p data-i18n="top.p">Оновлюється в реальному часі. Ніки частково приховані — переможець впізнає себе.</p>
+    </div>
+    <div class="top reveal" id="topList"></div>
+  </section>
+
+  <section class="section results" id="results" hidden>
+    <div class="section__head reveal">
+      <span class="kicker" data-i18n="results.kicker">// підсумки</span>
+      <h2><span data-i18n="results.h1">Переможці</span><br><span class="hl" data-i18n="results.h2">визначені</span></h2>
+      <p id="resultsMeta" class="muted"></p>
+    </div>
+    <div class="winners" id="winners"></div>
+  </section>
+
+  <section class="section" id="fair">
+    <div class="section__head reveal">
+      <span class="kicker" data-i18n="fair.kicker">// 06 — чесність</span>
+      <h2><span data-i18n="fair.h1">Чому це</span><br><span class="hl" data-i18n="fair.h2">по-чесному</span></h2>
+    </div>
+    <div class="fair">
+      <article class="faircard reveal tilt"><div class="faircard__ico">🎲</div><h3 data-i18n="fair.1.h">Справжній рандом</h3><p data-i18n="fair.1.p">Переможців обирає криптографічний генератор випадкових чисел на сервері, а не людина.</p></article>
+      <article class="faircard reveal tilt"><div class="faircard__ico">#</div><h3 data-i18n="fair.2.h">Публічний хеш</h3><p data-i18n="fair.2.p">Разом із підсумками публікуємо хеш списку всіх квитків. Підмінити список після розіграшу неможливо.</p></article>
+      <article class="faircard reveal tilt"><div class="faircard__ico">1</div><h3 data-i18n="fair.3.h">Одне місце — одна людина</h3><p data-i18n="fair.3.p">Якщо твій квиток виграв, решта твоїх квитків виходять із барабана. П’ять місць — п’ять різних людей.</p></article>
+      <article class="faircard reveal tilt"><div class="faircard__ico">✓</div><h3 data-i18n="fair.4.h">Перевірка підписок</h3><p data-i18n="fair.4.p">Перед розіграшем вручну перевіряємо підписку кожного учасника. Боти й мультіакаунти не пройдуть.</p></article>
+    </div>
+  </section>
+
+  <section class="section" id="timeline">
+    <div class="section__head reveal">
+      <span class="kicker" data-i18n="time.kicker">// 07 — терміни</span>
+      <h2><span data-i18n="time.h1">Місяць,</span><br><span class="hl" data-i18n="time.h2">який вирішує</span></h2>
+    </div>
+    <div class="week reveal" id="week"></div>
+    <div class="timeline reveal">
+      <div class="timeline__line"><i id="tlProgress"></i></div>
+      <div class="tl"><b id="tlStart">18.10</b><h3 data-i18n="time.1.h">Старт</h3><p data-i18n="time.1.p">Відкриваємо реєстрацію та продаж шансів.</p></div>
+      <div class="tl"><b data-i18n="time.2.b">30 днів</b><h3 data-i18n="time.2.h">Набір шансів</h3><p data-i18n="time.2.p">Підписуйся, реєструйся, збільшуй шанси.</p></div>
+      <div class="tl"><b id="tlEnd">18.11</b><h3 data-i18n="time.3.h">Фініш і підсумки</h3><p data-i18n="time.3.p">Перевіряємо підписки й чесно обираємо 5 переможців.</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <div class="section__head reveal">
+      <span class="kicker" data-i18n="faq.kicker">// 08 — faq</span>
+      <h2><span data-i18n="faq.h">Питання</span><span class="hl">?</span></h2>
+    </div>
+    <div class="faq reveal">
+      <details><summary data-i18n="faq.1.q">Це справді безкоштовно?</summary><p data-i18n="faq.1.a">Так. Кожен зареєстрований учасник отримує 1 шанс безкоштовно. Купувати додаткові шанси не обов’язково — безкоштовний квиток бере участь у розіграші нарівні з купленими.</p></details>
+      <details><summary data-i18n="faq.2.q">Як працюють додаткові шанси?</summary><p data-i18n="faq.2.a">Кожен шанс коштує $1. Якщо купиш 10 шансів, у тебе буде 11 (10 куплених + 1 безкоштовний). Що більше шансів, то вища ймовірність виграти одне з місць.</p></details>
+      <details><summary data-i18n="faq.3.q">Чи можна докупити шанси пізніше?</summary><p data-i18n="faq.3.a">Так, будь-коли, поки триває челендж. Зайди в особистий кабінет (кнопка «Увійти» вгорі) і обери кількість. Шанси сумуються.</p></details>
+      <details><summary data-i18n="faq.4.q">Як обираються переможці?</summary><p data-i18n="faq.4.a">Кожен шанс одразу отримує свій унікальний номерок: безкоштовний — при реєстрації, куплені — одразу після оплати. Номери йдуть по порядку і ніколи не повторюються, ти завжди бачиш їх у кабінеті. Після закінчення сервер випадково обирає 5 номерків — їхні власники перемагають. Одна людина може виграти лише одне місце. Хеш списку номерків публікується разом із підсумками.</p></details>
+      <details><summary data-i18n="faq.5.q">Що таке номерки?</summary><p data-i18n="faq.5.a">Це номери твоїх шансів, наприклад #0042. Купив 10 шансів — одразу отримав 10 номерків поспіль, наприклад #0120–#0129. Що більше номерків, то більше шансів, що випаде саме твій.</p></details>
+      <details><summary data-i18n="faq.6.q">Навіщо підписка на Instagram?</summary><p data-i18n="faq.6.a">Це умова участі. Перед розіграшем ми перевіряємо підписку кожного учасника — без неї шанси не враховуються. Статус перевірки видно в особистому кабінеті.</p></details>
+      <details><summary data-i18n="faq.7.q">Чи можна брати участь із кількох акаунтів?</summary><p data-i18n="faq.7.a">Ні. Одна людина — один акаунт і один Instagram. Мультіакаунти дискваліфікуються.</p></details>
+      <details><summary data-i18n="faq.8.q">Коли підсумки?</summary><p data-i18n="faq.8.a">Одразу після закінчення місяця челенджу. Переможців опублікуємо на цьому сайті та в нашому Instagram, а також зв’яжемося з ними по email.</p></details>
+      <details><summary data-i18n="faq.9.q">Чи можна повернути гроші за шанси?</summary><p data-i18n="faq.9.a">Куплені шанси не повертаються після закінчення челенджу. Якщо виникла проблема з оплатою — напиши нам в Instagram, розберемося.</p></details>
+    </div>
+  </section>
+
+  <section class="final">
+    <div class="deco" data-type="sign" style="--x:78%;--y:6%;--z:170px;--depth:.5"></div>
+    <h2 class="final__title"><span class="x3d" data-i18n="final.h1">Твій</span><br><span class="x3d x3d--pink" data-i18n="final.h2">хід.</span></h2>
+    <p class="final__sub" data-i18n="final.sub">Один шанс уже чекає на тебе. Безкоштовно.</p>
+    <button class="btn btn--black btn--xl magnetic" id="finalJoin"><span data-i18n="final.join">Брати участь</span><i>→</i></button>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer__big x3d" data-brand-name>ITTY</div>
+  <div class="footer__row">
+    <div><span data-brand-name>ITTY</span> <span data-i18n="footer.copy">© 2026 · IT-челендж</span></div>
+    <div class="footer__links">
+      <a href="#" data-ig-link target="_blank" rel="noopener">Instagram</a>
+      <button class="linklike" id="openRules" data-i18n="footer.rules">Правила</button>
+    </div>
+  </div>
+</footer>
+
+<div class="modal" id="modal" hidden>
+  <div class="modal__backdrop" data-close></div>
+  <div class="modal__box" role="dialog" aria-modal="true">
+    <button class="modal__x" data-close data-i18n-aria="close" aria-label="Закрити">✕</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+<canvas id="confetti" aria-hidden="true"></canvas>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+<script src="i18n.js?v=2" defer></script>
+<script src="scene3d.js?v=mur9fhi4" defer></script>
+<script src="app.js?v=fallen1" defer></script>
+</body>
+</html>

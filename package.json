@@ -1,0 +1,9 @@
+{
+  "name": "itty-challenge",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Challenge site: free entry + $1 chances, 5 winners",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "engines": { "node": ">=18" }
+}

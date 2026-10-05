@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Админка челленджа</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;900&family=JetBrains+Mono:wght@400;700&family=Manrope:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root { --bg:#f6f8fc; --card:#ffffff; --line:#dfe4f0; --text:#0b1a4a; --muted:#5d6a8f; --acid:#e8ff1a; --pink:#ff2e93; --violet:#7b5cff; --ok:#3d7a00; --warn:#a86b00; --bad:#d4134f; --link:#2342c4; --head:#eef1f8; }
+* { box-sizing: border-box; margin: 0; }
+body { background: var(--bg); color: var(--text); font: 500 14px/1.5 'Manrope', system-ui, sans-serif; padding: 24px 16px 60px; }
+button, input, select { font: inherit; color: inherit; }
+h1 { font: 900 26px 'Unbounded', sans-serif; letter-spacing: -.03em; }
+h1 span { color: var(--pink); }
+.wrap { max-width: 1400px; margin: 0 auto; }
+.top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 22px; }
+.btn { padding: 10px 16px; border-radius: 12px; border: 1px solid var(--line); background: #fff; cursor: pointer; font-weight: 700; white-space: nowrap; }
+.btn:hover { border-color: var(--text); }
+.btn--acid { background: var(--acid); color: var(--text); border-color: var(--text); }
+.btn--danger { border-color: rgba(212,19,79,.35); color: var(--bad); }
+.btn--sm { padding: 5px 9px; border-radius: 8px; font-size: 12px; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-bottom: 20px; }
+.card { padding: 18px; border-radius: 16px; background: var(--card); border: 1px solid var(--line); box-shadow: 0 6px 20px -12px rgba(11,26,74,.25); }
+.card b { display: block; font: 900 28px 'Unbounded', sans-serif; }
+.card span { color: var(--muted); font: 600 11px 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: .08em; }
+.bar { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; align-items: center; }
+.bar input, .bar select { padding: 10px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--card); }
+.bar input { flex: 1; min-width: 200px; }
+.tabs { display: flex; gap: 6px; margin-bottom: 14px; }
+.tabs button { padding: 8px 14px; border-radius: 10px; border: 1px solid var(--line); background: none; cursor: pointer; color: var(--muted); }
+.tabs button.on { background: var(--text); color: #fff; border-color: var(--text); }
+.tablebox { overflow-x: auto; border: 1px solid var(--line); border-radius: 16px; background: #fff; box-shadow: 0 6px 20px -12px rgba(11,26,74,.25); }
+table { width: 100%; border-collapse: collapse; min-width: 1000px; }
+th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: middle; }
+th { position: sticky; top: 0; background: var(--head); color: var(--muted); font: 600 11px 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: .06em; cursor: pointer; user-select: none; white-space: nowrap; }
+tr:hover td { background: #fafbe8; }
+td.num { font-family: 'JetBrains Mono', monospace; }
+td a { color: var(--link); font-weight: 700; }
+.pill { display: inline-block; padding: 3px 9px; border-radius: 999px; font: 700 11px 'JetBrains Mono', monospace; }
+.pill--pending { background: #fff1c7; color: var(--warn); }
+.pill--verified { background: #e6f9c4; color: var(--ok); }
+.pill--rejected { background: #ffe0ea; color: var(--bad); }
+.pill--paid { background: #e6f9c4; color: var(--ok); }
+.pill--failed, .pill--pending2 { background: #ffe0ea; color: var(--bad); }
+.acts { display: flex; gap: 4px; flex-wrap: wrap; }
+.note { width: 140px; padding: 5px 8px; border-radius: 8px; border: 1px solid var(--line); background: transparent; }
+.login { max-width: 360px; margin: 15vh auto; padding: 30px; border-radius: 22px; background: var(--card); border: 1px solid var(--line); box-shadow: 0 20px 50px -20px rgba(11,26,74,.3); display: grid; gap: 14px; }
+.login input { padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); background: #fff; }
+.err { color: var(--bad); min-height: 20px; }
+.draw { padding: 22px; border-radius: 18px; border: 1px solid var(--line); background: linear-gradient(120deg, rgba(232,255,26,.35), rgba(255,46,147,.08)); border-color: #d6e86a; margin-bottom: 20px; display: flex; gap: 16px; flex-wrap: wrap; align-items: center; justify-content: space-between; }
+.draw ol { padding-left: 20px; }
+.muted { color: var(--muted); }
+.tk { font-family: 'JetBrains Mono', monospace; font-weight: 700; }
+.tkr { max-width: 220px; font: 600 12px 'JetBrains Mono', monospace; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.type { display: inline-block; padding: 3px 9px; border-radius: 999px; font: 700 11px 'JetBrains Mono', monospace; }
+.type--free { background: #e8f0ff; color: var(--link); } .type--paid { background: #e6f9c4; color: var(--ok); } .type--manual { background: #fff1c7; color: var(--warn); } .type--bonus { background: #ffe0f0; color: #b0186a; }
+tr.void td { opacity: .45; text-decoration: line-through; }
+.export { padding: 18px 20px; border-radius: 16px; border: 1px solid var(--line); background: #fff; margin-bottom: 20px; display: grid; gap: 12px; box-shadow: 0 6px 20px -12px rgba(11,26,74,.25); }
+.export h3 { font: 800 15px 'Unbounded', sans-serif; }
+.export code { display: block; padding: 10px 12px; border-radius: 10px; background: var(--head); font: 600 12px 'JetBrains Mono', monospace; word-break: break-all; }
+.export .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.export .row code { flex: 1; min-width: 240px; }
+.hint { font-size: 13px; color: var(--muted); margin: -6px 0 14px; }
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script>
+'use strict';
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const dt = ts => ts ? new Date(ts).toLocaleString('ru-RU', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Kyiv' }) : '';
+async function api(p, data) {
+  const r = await fetch(p, { method: data ? 'POST' : 'GET', headers: data ? { 'Content-Type': 'application/json' } : {}, body: data ? JSON.stringify(data) : undefined });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw Object.assign(new Error(j.error || r.status), { code: r.status });
+  return j;
+}
+let D = null, tab = 'users', q = '', filter = 'all', sort = { k: 'num', dir: 1 }, tq = '', tf = 'all';
+const fmtT = n => '#' + String(n).padStart(4, '0');
+const dtFull = ts => ts ? new Date(ts).toLocaleString('ru-RU', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'Europe/Kyiv' }) : '';
+const PH = { soon: 'Ещё не начался', live: 'Идёт', ended: 'Завершён — можно проводить розыгрыш', results: 'Итоги опубликованы' };
+
+async function load() {
+  try { D = await api('/api/admin/data'); render(); }
+  catch (e) { if (e.code === 401) loginView(); else alert(e.message); }
+}
+function loginView() {
+  $('#app').innerHTML = `<form class="login" id="lf"><h1>Админка<span>.</span></h1><input type="password" id="pw" placeholder="Пароль администратора" autofocus><div class="err" id="err"></div><button class="btn btn--acid">Войти</button></form>`;
+  $('#lf').onsubmit = async e => { e.preventDefault(); try { await api('/api/admin/login', { password: $('#pw').value }); load(); } catch (er) { $('#err').textContent = er.message; } };
+}
+function render() {
+  const U = D.users, total = U.reduce((s, u) => s + u.chances, 0), rev = U.reduce((s, u) => s + u.revenue, 0);
+  const ver = U.filter(u => u.igStatus === 'verified'), pend = U.filter(u => u.igStatus === 'pending').length;
+  const verCh = ver.reduce((s, u) => s + u.chances, 0);
+  $('#app').innerHTML = `
+    <div class="top">
+      <h1>Челлендж<span>.</span>админка</h1>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <a class="btn" href="/" target="_blank">Сайт ↗</a>
+        <button class="btn" id="refresh">↻ Обновить</button>
+        <button class="btn" id="logout">Выйти</button>
+      </div>
+    </div>
+    <div class="cards">
+      <div class="card"><span>Статус</span><b style="font-size:16px">${PH[D.phase]}</b><span>${dt(D.startAt)} → ${dt(D.endAt)}</span></div>
+      <div class="card"><span>Участников</span><b>${U.length}</b></div>
+      <div class="card"><span>Всего шансов</span><b>${total}</b><span>выдано номерков: ${D.ticketSeq}</span></div>
+      <div class="card"><span>Выручка</span><b>$${rev.toFixed(2)}</b><span>режим оплаты: ${esc(D.paymentMode)}</span></div>
+      <div class="card"><span>Подписка ✓</span><b style="color:var(--ok)">${ver.length}</b><span>${verCh} шансов в розыгрыше</span></div>
+      <div class="card"><span>На проверке</span><b style="color:var(--warn)">${pend}</b></div>
+    </div>
+    ${drawBlock()}
+    ${exportBlock()}
+    <div class="tabs"><button data-t="users" class="${tab === 'users' ? 'on' : ''}">Участники</button><button data-t="tickets" class="${tab === 'tickets' ? 'on' : ''}">Номерки</button><button data-t="payments" class="${tab === 'payments' ? 'on' : ''}">Платежи</button></div>
+    <div id="pane"></div>`;
+  document.querySelectorAll('.tabs button').forEach(b => b.onclick = () => { tab = b.dataset.t; render(); });
+  $('#refresh').onclick = load;
+  $('#logout').onclick = async () => { await api('/api/admin/logout', {}); loginView(); };
+  bindDraw();
+  document.querySelectorAll('[data-copy]').forEach(b => b.onclick = () => { navigator.clipboard.writeText(b.dataset.copy).then(() => { b.textContent = '✓ Скопировано'; setTimeout(() => (b.textContent = 'Копировать'), 1500); }); });
+  ({ users: usersPane, tickets: ticketsPane, payments: paymentsPane })[tab]();
+}
+function exportBlock() {
+  const f = u => `=IMPORTDATA("${u}")`;
+  return `<div class="export">
+    <h3>Таблицы</h3>
+    <div class="row"><a class="btn" href="/api/admin/tickets.csv">⬇ Все номерки по порядку (Excel)</a><a class="btn" href="/api/admin/export.csv">⬇ Участники (Excel)</a></div>
+    ${D.sheets ? `
+      <div class="muted">Живая Google Таблица: создай новую таблицу, вставь формулу в ячейку A1 — данные будут обновляться сами (примерно раз в час, или при открытии).</div>
+      <div class="row"><b style="min-width:90px">Номерки</b><code>${esc(f(D.sheets.tickets))}</code><button class="btn btn--sm" data-copy="${esc(f(D.sheets.tickets))}">Копировать</button></div>
+      <div class="row"><b style="min-width:90px">Участники</b><code>${esc(f(D.sheets.participants))}</code><button class="btn btn--sm" data-copy="${esc(f(D.sheets.participants))}">Копировать</button></div>
+      <div class="muted" style="font-size:12px">Ссылки содержат секретный ключ — не публикуй их. Работают, когда сайт опубликован в интернете (с localhost Google не достучится).</div>`
+    : `<div class="muted">Для живой Google Таблицы добавь в .env строку <b>EXPORT_KEY=</b>любая-длинная-случайная-строка и перезапусти сервер. А пока можно скачать файл и открыть его в Google Таблицах: Файл → Импорт → Загрузить.</div>`}
+  </div>`;
+}
+function ticketsPane() {
+  $('#pane').innerHTML = `
+    <div class="bar">
+      <input id="tq" placeholder="Поиск: номерок, имя, email, instagram…" value="${esc(tq)}">
+      <select id="tf"><option value="all">Все типы</option><option value="free">Бесплатные</option><option value="paid">Купленные</option><option value="manual">Оплата вручную</option><option value="bonus">Бонусные</option><option value="void">Аннулированные</option></select>
+    </div>
+    <p class="hint">Каждый шанс = один номерок. Номера выдаются по порядку в момент регистрации или оплаты и никогда не повторяются.</p>
+    <div class="tablebox"><table><thead><tr><th>Номерок</th><th>Дата и время</th><th>Тип</th><th>Имя</th><th>Email</th><th>Instagram</th><th>Подписка</th><th>№ участника</th><th>Статус</th></tr></thead><tbody id="ttb"></tbody></table></div>
+    <p class="hint" id="tcount" style="margin-top:10px"></p>`;
+  $('#tf').value = tf;
+  $('#tq').oninput = e => { tq = e.target.value; trows(); };
+  $('#tf').onchange = e => { tf = e.target.value; trows(); };
+  trows();
+}
+function trows() {
+  const s = tq.toLowerCase().replace(/^#0*/, '');
+  const T = { free: 'бесплатный', paid: 'купленный', manual: 'вручную', bonus: 'бонус' };
+  const L = { pending: 'проверка', verified: 'подписка ✓', rejected: 'нет подписки' };
+  const list = D.tickets.filter(t => (tf === 'all' || (tf === 'void' ? t.void : t.type === tf && !t.void))
+    && (!s || String(t.n) === s || [t.name, t.email, t.instagram].some(v => (v || '').toLowerCase().includes(s))));
+  const shown = list.slice(0, 1000);
+  $('#ttb').innerHTML = shown.map(t => `<tr class="${t.void ? 'void' : ''}">
+    <td class="tk">${fmtT(t.n)}</td><td class="num">${dtFull(t.at)}</td><td><span class="type type--${t.type}">${T[t.type] || t.type}</span></td>
+    <td>${esc(t.name || '(удалён)')}</td><td>${esc(t.email || '')}</td>
+    <td>${t.instagram ? `<a href="https://instagram.com/${esc(t.instagram)}" target="_blank" rel="noopener">@${esc(t.instagram)}</a>` : ''}</td>
+    <td>${t.igStatus ? `<span class="pill pill--${t.igStatus}">${L[t.igStatus]}</span>` : ''}</td><td class="num">${t.num ?? ''}</td>
+    <td>${t.void ? esc('аннулирован: ' + (t.voidReason || '')) : 'активен'}</td></tr>`).join('') || `<tr><td colspan="9" class="muted" style="text-align:center;padding:30px">Номерков пока нет</td></tr>`;
+  $('#tcount').textContent = `Найдено: ${list.length}${list.length > shown.length ? ' (показаны первые 1000 — полный список в файле Excel)' : ''}`;
+}
+function drawBlock() {
+  if (D.draw) return `<div class="draw"><div><b>Розыгрыш проведён ${dt(D.draw.at)}</b> · ${D.draw.participants} участников · ${D.draw.totalTickets} номерков в барабане<ol style="margin-top:8px">${D.draw.winners.map(w => `<li><b>@${esc(w.user.instagram)}</b> — ${esc(w.user.name)}, ${esc(w.user.email)} · номерок <b class="tk">${fmtT(w.ticket)}</b> · ${w.chances} шанс.</li>`).join('')}</ol></div><button class="btn btn--danger" id="resetDraw">Сбросить итоги</button></div>`;
+  const ready = D.phase === 'ended';
+  return `<div class="draw"><div><b>Розыгрыш 5 мест</b><div class="muted">Случайно выбираются 5 номерков среди участников со статусом «подписка ✓». Один человек — одно место. ${ready ? 'Челлендж завершён — можно проводить.' : 'Станет доступен после окончания челленджа.'}</div></div>
+    <div style="display:flex;gap:8px"><button class="btn btn--acid" id="doDraw" ${ready ? '' : 'disabled style="opacity:.4"'}>🎲 Провести розыгрыш</button>${ready ? '' : '<button class="btn" id="forceDraw" title="Для теста">Тестовый запуск</button>'}</div></div>`;
+}
+function bindDraw() {
+  const run = async force => {
+    if (!confirm(force ? 'Провести розыгрыш ДО окончания челленджа? Итоги сразу появятся на сайте (потом можно сбросить).' : 'Провести розыгрыш? Итоги сразу появятся на сайте.')) return;
+    try { await api('/api/admin/draw', { force }); load(); } catch (e) { alert(e.message); }
+  };
+  $('#doDraw') && ($('#doDraw').onclick = () => run(false));
+  $('#forceDraw') && ($('#forceDraw').onclick = () => run(true));
+  $('#resetDraw') && ($('#resetDraw').onclick = async () => { if (confirm('Удалить итоги розыгрыша?')) { await api('/api/admin/draw', { reset: true }); load(); } });
+}
+function usersPane() {
+  $('#pane').innerHTML = `
+    <div class="bar">
+      <input id="q" placeholder="Поиск: имя, email, instagram, номерок…" value="${esc(q)}">
+      <select id="f"><option value="all">Все статусы</option><option value="pending">На проверке</option><option value="verified">Подписка ✓</option><option value="rejected">Нет подписки</option><option value="paid">Купили шансы</option></select>
+    </div>
+    <p class="hint">Проверка подписки: открой Instagram → подписчики аккаунта → найди ник → нажми ✓ или ✕. «+$» — начислить оплаченные шансы вручную (например, оплата переводом), «+🎁» — бонусные.</p>
+    <div class="tablebox"><table><thead><tr>
+      ${[['num', '№'], ['createdAt', 'Дата'], ['name', 'Имя'], ['email', 'Email'], ['instagram', 'Instagram'], ['igStatus', 'Подписка'], ['paid', 'Куплено'], ['bonus', 'Бонус'], ['chances', 'Всего'], ['ticketRanges', 'Номерки'], ['revenue', '$']].map(([k, t]) => `<th data-k="${k}">${t}${sort.k === k ? (sort.dir > 0 ? ' ↑' : ' ↓') : ''}</th>`).join('')}
+      <th>Действия</th><th>Заметка</th></tr></thead><tbody id="tb"></tbody></table></div>`;
+  $('#f').value = filter;
+  $('#q').oninput = e => { q = e.target.value; rows(); };
+  $('#f').onchange = e => { filter = e.target.value; rows(); };
+  document.querySelectorAll('th[data-k]').forEach(th => th.onclick = () => { sort = { k: th.dataset.k, dir: sort.k === th.dataset.k ? -sort.dir : 1 }; usersPane(); });
+  rows();
+}
+function rows() {
+  const s = q.toLowerCase();
+  let list = D.users.filter(u => (!s || ([u.name, u.email, u.instagram].some(v => v.toLowerCase().includes(s)) || u.tickets.some(n => String(n) === s.replace(/^#0*/, '')))) && (filter === 'all' || (filter === 'paid' ? u.paid > 0 : u.igStatus === filter)));
+  list.sort((a, b) => (a[sort.k] > b[sort.k] ? 1 : a[sort.k] < b[sort.k] ? -1 : 0) * sort.dir);
+  const L = { pending: 'проверка', verified: 'подписка ✓', rejected: 'нет подписки' };
+  $('#tb').innerHTML = list.map(u => `<tr data-id="${u.id}">
+    <td class="num">${u.num}</td><td class="num">${dt(u.createdAt)}</td><td>${esc(u.name)}</td><td>${esc(u.email)}</td>
+    <td><a href="https://instagram.com/${esc(u.instagram)}" target="_blank" rel="noopener">@${esc(u.instagram)}</a></td>
+    <td><span class="pill pill--${u.igStatus}">${L[u.igStatus]}</span></td>
+    <td class="num">${u.paid}</td><td class="num">${u.bonus}</td><td class="num"><b>${u.chances}</b></td><td><div class="tkr" title="${esc(u.ticketRanges)}">${esc(u.ticketRanges)}</div></td><td class="num">${u.revenue ? u.revenue.toFixed(2) : ''}</td>
+    <td><div class="acts">
+      <button class="btn btn--sm" data-a="verified" title="Подписка подтверждена">✓</button>
+      <button class="btn btn--sm" data-a="rejected" title="Нет подписки">✕</button>
+      <button class="btn btn--sm" data-a="paid" title="Начислить оплаченные шансы">+$</button>
+      <button class="btn btn--sm" data-a="bonus" title="Бонусные шансы">+🎁</button>
+      <button class="btn btn--sm btn--danger" data-a="del" title="Удалить">🗑</button>
+    </div></td>
+    <td><input class="note" value="${esc(u.note)}" placeholder="…"></td></tr>`).join('') || `<tr><td colspan="13" class="muted" style="text-align:center;padding:30px">Пока никого</td></tr>`;
+  document.querySelectorAll('#tb tr[data-id]').forEach(tr => {
+    const id = tr.dataset.id;
+    tr.querySelectorAll('[data-a]').forEach(b => b.onclick = async () => {
+      const a = b.dataset.a;
+      try {
+        if (a === 'verified' || a === 'rejected') await api('/api/admin/user', { id, igStatus: a });
+        else if (a === 'paid' || a === 'bonus') {
+          const n = parseInt(prompt(a === 'paid' ? 'Сколько оплаченных шансов начислить? (минус — списать)' : 'Сколько бонусных шансов добавить? (минус — убрать)') || '', 10);
+          if (!n) return;
+          const r = await api('/api/admin/user', { id, [a === 'paid' ? 'addPaid' : 'addBonus']: n });
+          if (r.newTickets?.length) alert('Выданы номерки: ' + r.newTickets.map(fmtT).join(', '));
+        } else if (a === 'del') { if (!confirm('Удалить участника навсегда?')) return; await api('/api/admin/delete', { id }); }
+        load();
+      } catch (e) { alert(e.message); }
+    });
+    tr.querySelector('.note').onchange = e => api('/api/admin/user', { id, note: e.target.value }).catch(er => alert(er.message));
+  });
+}
+function paymentsPane() {
+  $('#pane').innerHTML = `<div class="tablebox"><table><thead><tr><th>Дата</th><th>Email</th><th>Шансов</th><th>Номерки</th><th>Сумма</th><th>Способ</th><th>Статус</th><th>ID</th></tr></thead><tbody>
+    ${D.payments.map(p => `<tr><td class="num">${dt(p.createdAt)}</td><td>${esc(p.email || '—')}</td><td class="num">${p.qty}</td><td class="tk">${esc(p.tickets || '')}</td><td class="num">$${(p.amount / 100).toFixed(2)}</td><td>${esc(p.provider)}</td>
+      <td><span class="pill pill--${p.status === 'pending' ? 'pending2' : esc(p.status)}">${esc(p.status)}</span></td><td class="num muted">${esc(p.sessionId || p.id).slice(0, 18)}…</td></tr>`).join('') || `<tr><td colspan="8" class="muted" style="text-align:center;padding:30px">Платежей пока нет</td></tr>`}
+  </tbody></table></div>`;
+}
+load();
+setInterval(() => { if (D && !document.activeElement.matches('input')) load(); }, 30000);
+</script>
+</body>
+</html>
