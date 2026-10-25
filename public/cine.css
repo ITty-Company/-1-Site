@@ -1,0 +1,84 @@
+/* =====================================================================
+   Scroll-driven intro (Devialet-style mechanics). Its "video" is the
+   live 3D coin from world.js, so the viewport itself is transparent.
+   Plus the masked heading reveals used by every section.
+   ===================================================================== */
+
+/* scroll is the input — hide the scrollbar */
+html, body { scrollbar-width: none; -ms-overflow-style: none; }
+html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; width: 0; height: 0; }
+
+.cine { position: relative; z-index: 2; height: 420vh; }
+.cine__vp { position: absolute; left: 0; top: 0; width: 100%; height: 100vh; overflow: hidden; }
+.cine__vp.is-pin { position: fixed; }
+.cine__vp.is-post { top: auto; bottom: 0; }
+.cine__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: none; }
+.cine.has-video .cine__video { display: block; }
+
+/* two scaled design boxes: 1440×900 (430×932 on phones) */
+.cine__top, .cine__mid { position: absolute; left: 0; top: 0; width: 1440px; height: 900px; transform-origin: 0 0; pointer-events: none; z-index: 3; }
+.cine.is-m .cine__top, .cine.is-m .cine__mid { width: 430px; height: 932px; }
+
+/* headings: each line is a <p> inside an overflow:hidden mask */
+.cine__g { position: absolute; left: 60px; font-family: var(--display); font-weight: 880; letter-spacing: -.055em; color: var(--ink); }
+.cine__g1 { top: 150px; font-size: 128px; }
+.cine__g2, .cine__g3 { top: 250px; font-size: 104px; will-change: transform, opacity; }
+.text-mask { position: relative; overflow: hidden; height: 1.12em; padding-right: .3em; }
+.text-mask p { position: relative; top: 0; margin: 0; font: inherit; line-height: 1.12; white-space: nowrap; transform: translate3d(0,130%,0); will-change: transform; }
+.cine__acc { font-family: var(--serif); font-style: italic; font-weight: 800; letter-spacing: -.03em; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: .1em; }
+
+.cine__kicker {
+  position: absolute; left: 62px; top: 448px; opacity: 0;
+  font: 650 14px var(--body); letter-spacing: .1em; text-transform: uppercase;
+  padding: 9px 16px; border-radius: 999px; background: rgba(255,255,255,.7); border: 1px solid rgba(255,255,255,.95);
+}
+
+/* description block with the vertical line */
+.cine__desc {
+  --ft: 0px; --fb: 30px;
+  position: absolute; left: 1090px; top: 360px; width: 300px; height: 168px; opacity: 0; overflow: hidden;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 var(--ft), #000 calc(100% - var(--fb)), transparent 100%);
+          mask-image: linear-gradient(180deg, transparent 0, #000 var(--ft), #000 calc(100% - var(--fb)), transparent 100%);
+}
+.cine__desc-line { position: absolute; left: 0; top: 0; width: 1px; height: 100%; background: rgba(22,18,31,.2); }
+.cine__desc-short { position: absolute; left: -1px; top: 0; width: 3px; height: 96px; border-radius: 3px; background: var(--grad); will-change: transform, height; }
+.cine__desc p { position: absolute; left: 22px; right: 0; top: 0; margin: 0; font: 500 16px/1.55 var(--body); color: var(--ink); will-change: transform; }
+.cine__desc p[data-d="2"] { transform: translate3d(0,178px,0); }
+
+/* phone layout inside the 430×932 design box */
+.cine.is-m .cine__g1 { left: 22px; top: 100px; font-size: 60px; }
+.cine.is-m .cine__kicker { left: 24px; top: 262px; font-size: 11px; padding: 7px 12px; }
+.cine.is-m .cine__g2, .cine.is-m .cine__g3 { left: 22px; top: 100px; font-size: 54px; }
+.cine.is-m .cine__desc { left: 22px; top: 640px; width: 386px; height: 130px; }
+.cine.is-m .cine__desc p { font-size: 15px; }
+
+.cine__hint {
+  position: absolute; left: 50%; bottom: 96px; z-index: 4; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  font: 650 12px var(--body); letter-spacing: .14em; text-transform: uppercase; color: var(--ink); opacity: 0; pointer-events: none;
+}
+.cine__hint i { position: relative; width: 2px; height: 44px; overflow: hidden; border-radius: 2px; background: rgba(22,18,31,.15); }
+.cine__hint i::after { content: ''; position: absolute; left: 0; top: 0; width: 2px; height: 40%; background: var(--pink); animation: cineHint 1.4s var(--ease) infinite; }
+@keyframes cineHint { from { transform: translateY(-100%); } to { transform: translateY(260%); } }
+
+.cine__bar {
+  position: absolute; z-index: 6; left: max(20px, env(safe-area-inset-left, 0px)); right: max(20px, env(safe-area-inset-right, 0px)); bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.cine__dots, .cine__price { display: flex; align-items: center; gap: 10px; border-radius: 999px; background: rgba(255,255,255,.66); border: 1px solid rgba(255,255,255,.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 14px 40px -18px rgba(70,30,140,.35); }
+.cine__dots { height: 46px; padding: 0 16px 0 10px; }
+.cdot { width: 8px; height: 8px; border-radius: 50%; background: rgba(22,18,31,.18); transition: width .4s var(--spring), background .3s; }
+.cdot.on { width: 26px; border-radius: 8px; background: var(--grad); }
+.cine__count { margin-left: 4px; font: 650 12px var(--body); color: var(--mute); }
+.cine__count b { color: var(--ink); }
+.cine__price { padding: 5px 5px 5px 18px; font: 600 13px var(--body); }
+.cine__price b { color: var(--pink); }
+@media (max-width: 520px) { .cine__price > span { display: none; } .cine__price { padding: 4px; } .cine__hint { bottom: 92px; } }
+@media (prefers-reduced-motion: reduce) { .cine__hint i::after { animation: none; } }
+
+/* ---------- masked heading lines in every section ---------- */
+.sx .tm { display: block; overflow: hidden; padding: .12em .25em .12em 0; margin: -.12em -.25em -.12em 0; }
+.sx .final__title .tm { padding-inline: .25em; margin-inline: -.25em; }
+.sx .tm__in { display: block; transform: translate3d(0,130%,0); will-change: transform; }
+.sx .tm--k { display: inline-block; padding: 4px 8px 4px 0; margin: -4px -8px -4px 0; }
+.sx .hero:not(.hero--in) .split .ch { transform: translateY(110%) rotate(8deg); }

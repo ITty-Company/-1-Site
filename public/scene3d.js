@@ -63,8 +63,8 @@ window.dollarReady = new Promise(resolve => {
     for (let k = 0; k < sp.n; k++) {
       const g = new T.PlaneGeometry(sp.w, sp.h, 32, 24);
       const m = new T.Mesh(g, mat);
-      m.userData.orig = Float32Array.from(g.attributes.position.array);
       add(m, i++, { wave: sp.wave, rock: sp.rock || .5, scale: sp.scale[0] + Math.random() * sp.scale[1] });
+      m.userData.orig = Float32Array.from(g.attributes.position.array); // after add(): it replaces userData
       m.rotation.z = (Math.random() - .5) * .7;
     }
   }));

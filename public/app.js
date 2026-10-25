@@ -77,7 +77,7 @@ function buildDeco(el, type) {
 $$('.deco').forEach(d => buildDeco(d, d.dataset.type));
 (window.dollarReady || Promise.resolve({ url: billSrc })).then(({ url }) => {
   billSrc = url;
-  $('.bill3d').forEach(i => i.src = url);
+  $$('.bill3d').forEach(i => i.src = url);
 });
 
 /* ================= magnetic buttons, tilt, 3D text light, parallax ================= */
@@ -162,7 +162,7 @@ $$('.deco').forEach(d => buildDeco(d, d.dataset.type));
   const c = $('#sparkles'); if (!c) return;
   const x = c.getContext('2d'); if (!x) return;
   let w, h, dpr, stars = [], dust = [];
-  const COLORS = ['#A9ED3D', '#34CD3F', '#FF6B1A', '#eef8dc'];
+  const COLORS = ['#c6ff00', '#a6ff00', '#ff2e93', '#f0e4ff'];
   function init() {
     dpr = Math.min(devicePixelRatio || 1, 2);
     w = c.width = innerWidth * dpr; h = c.height = innerHeight * dpr;
@@ -708,7 +708,7 @@ function confetti() {
   const c = $('#confetti'), x = c?.getContext('2d'), dpr = Math.min(devicePixelRatio || 1, 2);
   if (!x) return; // decoration only — never break registration or payment flows
   c.width = innerWidth * dpr; c.height = innerHeight * dpr;
-  const cols = ['#FF6B1A', '#081910', '#A9ED3D', '#34CD3F', '#eef8dc'];
+  const cols = ['#ff2e88', '#0c0c10', '#2340ff', '#ffffff', '#ff2e88'];
   const ps = Array.from({ length: 220 }, (_, i) => ({
     x: c.width * (i % 2 ? .15 : .85), y: c.height * .75, vx: (Math.random() - .5) * 26 * dpr + (i % 2 ? 9 : -9) * dpr, vy: -(Math.random() * 26 + 14) * dpr,
     r: (Math.random() * 6 + 4) * dpr, c: cols[i % cols.length], a: Math.random() * 6, va: (Math.random() - .5) * .4, life: 1,
